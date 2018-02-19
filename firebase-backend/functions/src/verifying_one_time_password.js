@@ -1,4 +1,5 @@
 const admin = require('firebase-admin');
+const standartlizePhoneNumber = require('./sharedFunctions');
 
 module.exports = function (req, res) {
     // Verify if user provided phone and code
@@ -7,7 +8,7 @@ module.exports = function (req, res) {
     }
 
     // Remove NONE digits in phone string
-    const phone = String(req.body.phone).replace(/[^\d]/g, '');
+    const phone = standartlizePhoneNumber(req.body.phone);
     const code = parseInt(req.body.code);
 
     // Get user first to check active user

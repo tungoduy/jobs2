@@ -1,5 +1,6 @@
 const admin = require('firebase-admin');
 const twilio = require('./twilio');
+const standartlizePhoneNumber = require('./sharedFunctions');
 
 module.exports = function(req, res) {
 
@@ -9,8 +10,8 @@ module.exports = function(req, res) {
     }
 
     // Nomarlize a phone string to remove non degits and parens
-    const phone = String(req.body.phone).replace(/[^\d]/g, '');
-
+    const phone = standartlizePhoneNumber(req.body.phone);
+    
     // Get user record
     admin.auth().getUser(phone)
         .then(userRecord => {
@@ -19,8 +20,7 @@ module.exports = function(req, res) {
 
             twilio.messages.create({
                 body: 'Your code is: ' + code,
-                //to: '+' + phone,
-                to: '+972549263169',
+                to: phone,
                 from: "+19477770090"
             }, (err) => {
                 // If there are any errors

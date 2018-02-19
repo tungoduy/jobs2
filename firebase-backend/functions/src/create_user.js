@@ -1,4 +1,5 @@
 const admin = require('firebase-admin');
+const standartlizePhoneNumber = require('./sharedFunctions');
 
 module.exports = function(req, res) {
 
@@ -8,7 +9,7 @@ module.exports = function(req, res) {
     }
 
     // Format the phone number to replace dashes and parens
-    const phone = String(req.body.phone).replace(/[^\d]/g, '');
+    const phone = standartlizePhoneNumber(req.body.phone);
 
     // Create a new user account using the phone number
     admin.auth().createUser({ uid: phone })
