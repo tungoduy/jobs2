@@ -34,10 +34,14 @@ export const fetchJobs = (region, success_callback, fail_callback) => async (dis
 
     try {
         let zipcode = await reverseGeocode(region);
+        console.log(1);
         const url = buildJobUrl(zipcode);
+        console.log(2);
         let { data } = await axios.get(url);
+        console.log(3);
         //console.log(data);
         dispatch({ type: FETCH_JOBS_SUCCESS, payload: data.results });
+        console.log(4);
         success_callback();
     } catch (err) {
         console.error(err);

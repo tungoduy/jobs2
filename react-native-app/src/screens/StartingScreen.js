@@ -16,6 +16,10 @@ class StartingScreen extends Component {
             this.props.navigation.navigate(nextProps.nextScreen);
         }
     }
+
+    async componentDidUpdate() {
+        await this.props.navigateToScreen();
+    }
     
     render() {
         return (

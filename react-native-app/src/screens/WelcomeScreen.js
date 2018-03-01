@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 
 import { setNextScreen, updatePassedWelcome } from '../redux/actions';
 import { Slide } from '../components/common';
-import { AUTH_SCREEN } from '../constants';
+import { AUTH_SCREEN, WELCOME_SCREEN } from '../constants';
 const DATA = [
     {text: 'Find your desire jobs here.'},
     {text: 'Search jobs by location.'},
 ]
 
 class WelcomeScreen extends Component {
-    
+    state = {refreshScroll: false};
     onEndOfSlide = () => {
         this.props.updatePassedWelcome();
         this.props.setNextScreen( AUTH_SCREEN );
@@ -25,6 +25,7 @@ class WelcomeScreen extends Component {
                     data={DATA}
                     buttonTitle='Continue'
                     onEndOfSlide={this.onEndOfSlide}
+                    forceScrollTo={0}
                 />
             </View>
         );
@@ -32,13 +33,13 @@ class WelcomeScreen extends Component {
 }
 
 const mapStateToProps = ({ nextScreen }) => {
-    if ( nextScreen === AUTH_SCREEN)
+    if ( nextScreen === WELCOME_SCREEN)
         return { nextScreen };
     else
         return {};
 }
 
-export default connect(null, { setNextScreen, updatePassedWelcome })(WelcomeScreen);
+export default connect(mapStateToProps, { setNextScreen, updatePassedWelcome })(WelcomeScreen);
 
 //export default connect(mapStateToProps, {})(WelcomeScreen);
 //export {WelcomeScreen};

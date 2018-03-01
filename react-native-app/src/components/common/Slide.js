@@ -7,8 +7,18 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 class Slide extends Component {
     static defaultProps = {
         onEndOfSlide: () => {},
-        buttonTitle: 'default title'
+        buttonTitle: 'default title',
+        forceScrollTo: -1
     }
+
+    componentDidMount() {
+        this.forceScrollToPosition();
+    }
+
+    componentDidUpdate() {
+        this.forceScrollToPosition();
+    }
+
     renderSlides() {
         const data  = this.props.data;
         const _length = data.length - 1;
@@ -52,14 +62,25 @@ class Slide extends Component {
         return null;
     }
 
+
+    forceScrollToPosition = () => {
+        if ( this.props.forceScrollTo != -1 ) {
+            this._slideScrollView.scrollTo({x: 0, y: 0, animated: true});
+        }
+    }
+
     render() {
         return (
             <ScrollView
+                //ref='_slideScrollView'
+                ref={(_slideScrollView) => { this._slideScrollView = _slideScrollView; }}
                 horizontal
                 pagingEnabled
             >
                 {this.renderSlides()}
-            </ScrollView>
+                
+                
+            </ScrollView>            
         );
     }
 }
